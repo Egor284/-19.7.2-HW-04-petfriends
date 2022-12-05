@@ -150,6 +150,50 @@ def test_add_new_pet_without_photo_valid_data_manyage(name='Бублик', anima
     assert status == 200
     assert result['name'] == name
 
+def test_add_new_pet_without_photo_valid_data_age_sym(name='Бублик', animal_type='хлебобулочный',
+                                     age='-****-'):
+    """Проверяем что можно добавить питомца со знаками в поле возраст без фото"""
+
+    # Запрашиваем ключ api и сохраняем в переменую auth_key
+    _, auth_key = pf.get_api_key(valid_email, valid_password)
+
+    # Добавляем питомца
+    status, result = pf.add_new_pet_without_photo(auth_key, name, animal_type, age)
+
+    # Сверяем полученный ответ с ожидаемым результатом
+    assert status == 200
+    assert result['name'] == name
+
+
+def test_add_new_pet_without_photo_valid_data_anit_numb(name='Бублик', animal_type='21230',
+                                     age='1'):
+    """Проверяем что можно добавить питомца с цифрами в поле порода без фото"""
+
+    # Запрашиваем ключ api и сохраняем в переменую auth_key
+    _, auth_key = pf.get_api_key(valid_email, valid_password)
+
+    # Добавляем питомца
+    status, result = pf.add_new_pet_without_photo(auth_key, name, animal_type, age)
+
+    # Сверяем полученный ответ с ожидаемым результатом
+    assert status == 200
+    assert result['name'] == name
+
+
+def test_add_new_pet_without_photo_valid_data_anit_mark(name='Бублик', animal_type='/*-+/*-+',
+                                     age='1'):
+    """Проверяем что можно добавить питомца со знаками в поле порода без фото"""
+
+    # Запрашиваем ключ api и сохраняем в переменую auth_key
+    _, auth_key = pf.get_api_key(valid_email, valid_password)
+
+    # Добавляем питомца
+    status, result = pf.add_new_pet_without_photo(auth_key, name, animal_type, age)
+
+    # Сверяем полученный ответ с ожидаемым результатом
+    assert status == 200
+    assert result['name'] == name
+
 
 def test_add_new_pet_without_photo_valid_data_badname(name='-=/*-', animal_type='хлебобулочный',
                                      age='0'):
@@ -181,7 +225,7 @@ def test_add_new_pet_without_photo_valid_data_noparams(name='', animal_type='',
     assert result['name'] == name
 
 
-def test_get_api_key_for_valid_user_badparams(email=b_email, password=b_password):
+def test_get_api_key_for_user_badparams(email=b_email, password=b_password):
     """ Проверяем что появляется ошибка если пользователь не зарегистрирован"""
 
     # Отправляем запрос и сохраняем полученный ответ с кодом статуса в status, а текст ответа в result
@@ -189,5 +233,57 @@ def test_get_api_key_for_valid_user_badparams(email=b_email, password=b_password
 
     # Сверяем полученные данные с нашими ожиданиями
     assert status == 403
+
+
+def test_get_api_key_for_valid_user_badppasswrd(email=valid_email, password=b_password):
+    """ Проверяем что появляется ошибка если пользователь ввёл неправильный пароль"""
+
+    # Отправляем запрос и сохраняем полученный ответ с кодом статуса в status, а текст ответа в result
+    status, result = pf.get_api_key(email, password)
+
+    # Сверяем полученные данные с нашими ожиданиями
+    assert status == 403
+
+
+def test_get_api_key_for_valid_user_bademail(email=valid_email, password=b_password):
+    """ Проверяем что появляется ошибка если пользователь ввёл неправильный пароль"""
+
+    # Отправляем запрос и сохраняем полученный ответ с кодом статуса в status, а текст ответа в result
+    status, result = pf.get_api_key(email, password)
+
+    # Сверяем полученные данные с нашими ожиданиями
+    assert status == 403
+
+
+def test_add_new_pet_badname_ageword(name='Бублик', animal_type='хлебобулочный',
+                                     age='Десять тыщь лэт'):
+    """Проверяем что можно добавить питомца с буквами в поле возраста"""
+
+    # Запрашиваем ключ api и сохраняем в переменую auth_key
+    _, auth_key = pf.get_api_key(valid_email, valid_password)
+
+    # Добавляем питомца
+    status, result = pf.add_new_pet_without_photo(auth_key, name, animal_type, age)
+
+    # Сверяем полученный ответ с ожидаемым результатом
+    assert status == 200
+    assert result['name'] == name
+
+
+def test_add_new_pet_INGLname_ageword(name='Bublik', animal_type='Hlebushek',
+                                     age='Mnogo'):
+    """Проверяем что можно добавить питомца с параметрами на английском языке"""
+
+    # Запрашиваем ключ api и сохраняем в переменую auth_key
+    _, auth_key = pf.get_api_key(valid_email, valid_password)
+
+    # Добавляем питомца
+    status, result = pf.add_new_pet_without_photo(auth_key, name, animal_type, age)
+
+    # Сверяем полученный ответ с ожидаемым результатом
+    assert status == 200
+    assert result['name'] == name
+
+
 
 
